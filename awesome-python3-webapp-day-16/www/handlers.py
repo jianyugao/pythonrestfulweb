@@ -119,10 +119,24 @@ def signin():
 
 @get('/blogtwo')
 def signinpython():
+    blogs = yield from Blog.findAll(orderBy='created_at desc')
+    blogsleft = []
+    blogsright = []
+    logging.info("################the len of blogs:"+str(len(blogs)))
+    ishu = 0
+    for i in range(0, len(blogs)):
+        if i%2==0:
+            blogsleft.append(blogs[i])
+        else:
+            blogsright.append(blogs[i])
+
     return {
         '__template__': 'blogtwo.html',
-        'currenttime': datetime.now().strftime("%B %Y")
-
+        'currenttime': datetime.now().strftime("%B %H %M %Y"),
+        'blogsleft': blogsleft,
+        'blogsright': blogsright,
+        'blogs':blogs,
+        # 'ishu':ishu
     }
 
 @post('/api/authenticate')
@@ -281,6 +295,7 @@ def api_blogs(*, page='1'):
     if num == 0:
         return dict(page=p, blogs=())
     blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+
     return dict(page=p, blogs=blogs)
 
 @get('/api/blogs/{id}')
@@ -297,7 +312,7 @@ def api_create_blog(request, *, name, summary, content):
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    blog = Blog(user_identity='Marine',user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
     return blog
 
