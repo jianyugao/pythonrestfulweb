@@ -1,220 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>MARINE | Priates' King</title>
-
     <link href="multicolor/css/bootstrap.min.css" rel="stylesheet">
     <link href="multicolor/css/font-awesome.min.css" rel="stylesheet">
-    <link href="multicolor/css/lightbox.css" rel="stylesheet"> 
-    <link href="multicolor/css/animate.min.css" rel="stylesheet"> 
+    <link href="multicolor/css/lightbox.css" rel="stylesheet">
+    <link href="multicolor/css/animate.min.css" rel="stylesheet">
     <link href="multicolor/css/main.css" rel="stylesheet">
     <link href="multicolor/css/responsive.css" rel="stylesheet">
     <!-- add by gary 03/14 -->
     <link rel="stylesheet" href="/static/css/uikit.min.css">
     <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
     <!--[if lt IE 9]>
-	    <script src="js/html5shiv.js"></script>
-	    <script src="js/respond.min.js"></script>
-    <![endif]-->       
-   <!--  <link rel="shortcut icon" href="multicolor/images/ico/favicon.ico">
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+    <!--  <link rel="shortcut icon" href="multicolor/images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="multicolor/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="multicolor/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="multicolor/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="multicolor/images/ico/apple-touch-icon-57-precomposed.png">
- -->
+-->
     <script type="text/javascript" src="multicolor/js/jquery.js"></script>
     <script src="/static/js/vue.min.js"></script>
     <script src="/static/js/awesome.js"></script>
     <script src="/static/js/sha1.min.js"></script>
     <script>
-    function selectSignin()
-    {
-        document.getElementById('signin').style.display='block';
+    function selectSignin() {
+        document.getElementById('signin').style.display = 'block';
     }
-     function selectSignup()
-    {
-        document.getElementById('signup').style.display='block';
+
+    function selectSignup() {
+        document.getElementById('signup').style.display = 'block';
     }
-    function hideSignin()
-    {
-        document.getElementById('signin').style.display='none';
+
+    function hideSignin() {
+        document.getElementById('signin').style.display = 'none';
     }
-    function hideSignup()
-    {
-        document.getElementById('signup').style.display='none';
+
+    function hideSignup() {
+        document.getElementById('signup').style.display = 'none';
     }
-    function verifyEmail(email){
-    var re=/^[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9\_]+(\.[a-z0-9]+){1,4}$/;
-    return re.test(email.toLowerCase());
+
+    function verifyEmail(email) {
+        var re = /^[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9\_]+(\.[a-z0-9]+){1,4}$/;
+        return re.test(email.toLowerCase());
     }
     /**Sign up*/
-    $(function (){
-    var vm = new Vue({
-        el:'#upform',
-        data:{
-            username:'',
-            email:'',
-            password1:'',
-            password2:''
+    $(function() {
+        var vm = new Vue({
+            el: '#upform',
+            data: {
+                username: '',
+                email: '',
+                password1: '',
+                password2: ''
 
-        },
-        methods:{
-            submit: function(data){
-                event.preventDefault();
-                var $form=$('#upform');
-                if(! this.username.trim()){
-                    return $form.showFormError('Please enter your user name');
-                }
-                if(! verifyEmail(this.email)){
-                    return $form.showFormError('Please enter correct email');
-                }
-                if(this.password1.length<6){
-                    return $form.showFormError('Password must be longer than 6 characters');
-                }
-                if(this.password1!==this.password2){
-                    return $form.showFormError('Passwords are not the same');
-                }
-                var email=this.email.trim().toLowerCase();
-                $form.postJSON('/api/users', {
-                    name:this.username,
-                    email:email,
-                    passwd:CryptoJS.SHA1(email+':'+this.password1).toString()
-                },function(err, r){
-                    if (err) {
-                        return $form.showFormError(err);
+            },
+            methods: {
+                submit: function(data) {
+                    event.preventDefault();
+                    var $form = $('#upform');
+                    if (!this.username.trim()) {
+                        return $form.showFormError('Please enter your user name');
                     }
-                    return location.assign('/');
+                    if (!verifyEmail(this.email)) {
+                        return $form.showFormError('Please enter correct email');
+                    }
+                    if (this.password1.length < 6) {
+                        return $form.showFormError('Password must be longer than 6 characters');
+                    }
+                    if (this.password1 !== this.password2) {
+                        return $form.showFormError('Passwords are not the same');
+                    }
+                    var email = this.email.trim().toLowerCase();
+                    $form.postJSON('/api/users', {
+                        name: this.username,
+                        email: email,
+                        passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()
+                    }, function(err, r) {
+                        if (err) {
+                            return $form.showFormError(err);
+                        }
+                        return location.assign('/');
 
                     });
                 }
-                
+
             }
-        
+
+
+        });
+        $('#upform').show();
 
     });
-     $('#upform').show();
 
-});
-
-/**Sign in*/
-$(function() {
-    var vmAuth = new Vue({
-        el: '#vm',
-        data: {
-            email: '',
-            password: ''
-        },
-        methods: {
-            submit: function(event) {
-                event.preventDefault();
-               /* var $form = $('#inform');*/
-                var $form=$('#vm');
-                var email = this.email.trim().toLowerCase();
-                var data = {
+    /**Sign in*/
+    $(function() {
+        var vmAuth = new Vue({
+            el: '#vm',
+            data: {
+                email: '',
+                password: ''
+            },
+            methods: {
+                submit: function(event) {
+                    event.preventDefault();
+                    /* var $form = $('#inform');*/
+                    var $form = $('#vm');
+                    var email = this.email.trim().toLowerCase();
+                    var data = {
                         email: email,
-                        password: this.password==='' ? '' : CryptoJS.SHA1(email + ':' + this.password).toString()
+                        password: this.password === '' ? '' : CryptoJS.SHA1(email + ':' + this.password).toString()
                     };
-                    console.warn("this.email:"+this.email+"password:"+this.password);
-                $form.postJSON('/api/authenticate', data, function(err, result) {
-                    if (! err) {
-                        location.assign('/blogtwo');
-                    }
-                });
+                    console.warn("this.email:" + this.email + "password:" + this.password);
+                    $form.postJSON('/api/authenticate', data, function(err, result) {
+                        if (!err) {
+                            location.assign('/blogtwo');
+                        }
+                    });
+                }
             }
-        }
+        });
     });
-});
-
-</script>
-</head><!--/head-->
+    </script>
+</head>
+<!--/head-->
 
 <body>
-
-     <!-- ADD BY GARY  Signin-->
-    <div id="signin" class="modal-content" style="display:none" >
+    <!-- ADD BY GARY  Signin-->
+    <div id="signin" class="modal-content" style="display:none">
         <div class="modal-header">
             <button type="button" class="close" onclick="hideSignin()">x</button>
             <h1><img src="multicolor/images/marine2.png" alt="logo"></h1>
         </div>
         <div class="modal-body">
-            <form  id="vm" v-on="submit:submit" class="form col-md-12 center-block">
-            <div class="uk-alert uk-alert-danger uk-hidden"></div>
-            <div class="form-group">
-                <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-            </div>
-            <div class="form-group">
-                <input v-model="password" type="password" class="form-control input-lg" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-            <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
-            <!-- <span><a href="#">找回密码</a></span>
+            <form id="vm" v-on="submit:submit" class="form col-md-12 center-block">
+                <div class="uk-alert uk-alert-danger uk-hidden"></div>
+                <div class="form-group">
+                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input v-model="password" type="password" class="form-control input-lg" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
+                    <!-- <span><a href="#">找回密码</a></span>
             <span><a href="#" class="pull-right">注册</a></span> -->
-            </div>
+                </div>
             </form>
         </div>
         <div class="modal-footer"></div>
     </div>
-
- <!-- ADD BY GARY  -->
-
-     <!-- ADD BY GARY  Signup-->
-    <div id="signup" class="modal-content" style="display:none" >
-      <div class="modal-header">
-        <button type="button" class="close" onclick="hideSignup()">x</button>
-        <h1><img src="multicolor/images/marine2.png" alt="logo"></h1>
-      </div>
-      <div class="modal-body">
-        <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
-         <div class="uk-alert uk-alert-danger uk-hidden"></div>
-          <div class="form-group">
-            <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
-          </div>
-          <div class="form-group">
-            <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <input v-model="password1" type="password" class="form-control input-lg" placeholder="Password">
-          </div>
-          <div class="form-group">
-            <input v-model="password2" type="password" class="form-control input-lg" placeholder="Confirm Password">
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
-           <!--  <span><a href="#">找回密码</a></span>
-            <span><a href="#" class="pull-right">注册</a></span> -->
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        
-      </div>
-    </div> 
-
- <!-- ADD BY GARY  -->
-
-	<header id="header">      
+    <!-- ADD BY GARY  -->
+    <!-- ADD BY GARY  Signup-->
+    <div id="signup" class="modal-content" style="display:none">
+        <div class="modal-header">
+            <button type="button" class="close" onclick="hideSignup()">x</button>
+            <h1><img src="multicolor/images/marine2.png" alt="logo"></h1>
+        </div>
+        <div class="modal-body">
+            <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
+                <div class="uk-alert uk-alert-danger uk-hidden"></div>
+                <div class="form-group">
+                    <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
+                </div>
+                <div class="form-group">
+                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input v-model="password1" type="password" class="form-control input-lg" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input v-model="password2" type="password" class="form-control input-lg" placeholder="Confirm Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+                    <!--  <span><a href="#">找回密码</a></span>
+           <span><a href="#" class="pull-right">注册</a></span> -->
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+    <!-- ADD BY GARY  -->
+    <header id="header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 overflow">
-                   <div class="social-icons pull-right">
+                    <div class="social-icons pull-right">
                         <ul class="nav nav-pills">
-                           <!--  <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                            <li><a href=""><i class="fa fa-twitter"></i></a></li> -->
+                            <!--  <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                           <li><a href=""><i class="fa fa-twitter"></i></a></li> -->
                             <!-- <li><a href=""><i class="fa fa-google-plus"></i></a></li> -->
                             <!-- <li><a href=""><i class="fa fa-dribbble"></i></a></li>
                             <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
                             <!-- <li><a href="/signin"><i class="uk-icon-sign-in"></i> Sign in</a></li> -->
-                            <li ><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>Sign in</a></li>
+                            {% if __user__ %}
+                            <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
+                            <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
+                            {% else %}
+                            <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>Sign in</a></li>
                             <li><a onclick="selectSignup()"><i class="uk-icon-edit"></i>Sign up</a></li>
+                            {% endif %}
                         </ul>
-                    </div> 
+                    </div>
                 </div>
-             </div>
+            </div>
         </div>
         <div class="navbar navbar-inverse" role="banner">
             <div class="container">
@@ -225,11 +224,9 @@ $(function() {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
                     <a class="navbar-brand" href="index.html">
                         <h1><img src="multicolor/images/marine1.png" alt="logo"></h1>
                     </a>
-                    
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -245,8 +242,8 @@ $(function() {
                                 <li><a href="404.html">404 error</a></li>
                                 <li><a href="coming-soon.html">Coming Soon</a></li>
                             </ul>
-                        </li>                    
-                        <li class="dropdown active"><a href="blog.html">Blog <i class="fa fa-angle-down"></i></a>
+                        </li>
+                        <li class="dropdown"><a href="#">Blog <i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="blog.html">Blog Default</a></li>
                                 <li><a class="active" href="blogtwo.html">Timeline Blog</a></li>
@@ -265,8 +262,8 @@ $(function() {
                                 <li><a href="portfoliothree.html">2 Columns</a></li>
                                 <li><a href="portfolio-details.html">Portfolio Details</a></li>
                             </ul>
-                        </li>                         
-                        <li><a href="shortcodes.html ">Shortcodes</a></li>                    
+                        </li>
+                        <li><a href="shortcodes.html ">Shortcodes</a></li>
                     </ul>
                 </div>
                 <div class="search">
@@ -281,10 +278,9 @@ $(function() {
         </div>
     </header>
     <!--/#header-->
-    
     <section id="page-breadcrumb">
         <div class="vertical-center sun">
-             <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="action">
                         <div class="col-sm-12">
@@ -297,10 +293,10 @@ $(function() {
         </div>
     </section>
     <!--/#page-breadcrumb-->
-    
     <section id="blog" class="padding-bottom">
         <div class="container">
             <div class="row">
+                <!-- <div class="timeline-blog overflow padding-top"> -->
                 <div class="timeline-blog overflow padding-top">
                     <div class="timeline-date text-center">
                         <a href="#" class="btn btn-common uppercase">{{currenttime}}</a>
@@ -312,8 +308,8 @@ $(function() {
                                     <div class="post-thumb">
                                         <img src="static/images/blog/timeline/1.jpg" class="img-responsive" alt="">
                                         <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
+                                            <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="post-content overflow">
@@ -334,8 +330,8 @@ $(function() {
                                     <div class="post-thumb">
                                         <img src="static/images/blog/timeline/2.jpg" class="img-responsive" alt="">
                                         <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
+                                            <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="post-content overflow">
@@ -371,7 +367,7 @@ $(function() {
                         </div>
                     </div>
                 </div>
-                <div class="timeline-blog overflow">
+                <div class="timeline-blog overflow padding-top">
                     <div class="timeline-date text-center">
                         <a href="" class="btn btn-common uppercase">Setember 2013</a>
                     </div>
@@ -382,8 +378,8 @@ $(function() {
                                     <div class="post-thumb">
                                         <img src="static/images/blog/timeline/3.jpg" class="img-responsive" alt="">
                                         <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
+                                            <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="post-content overflow">
@@ -404,8 +400,8 @@ $(function() {
                                     <div class="post-thumb">
                                         <img src="static/images/blog/timeline/4.jpg" class="img-responsive" alt="">
                                         <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
+                                            <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="post-content overflow">
@@ -429,7 +425,6 @@ $(function() {
         </div>
     </section>
     <!--/#blog-->
-
     <footer id="footer">
         <div class="container">
             <div class="row">
@@ -447,7 +442,7 @@ $(function() {
                                 <blockquote>Nisi commodo bresaola, leberkas venison eiusmod bacon occaecat labore tail.</blockquote>
                                 <h3><a href="#">- Jhon Kalis</a></h3>
                             </div>
-                         </div>
+                        </div>
                         <div class="media">
                             <div class="pull-left">
                                 <a href="#"><img src="static/images/home/profile2.png" alt=""></a>
@@ -456,24 +451,25 @@ $(function() {
                                 <blockquote>Capicola nisi flank sed minim sunt aliqua rump pancetta leberkas venison eiusmod.</blockquote>
                                 <h3><a href="">- Abraham Josef</a></h3>
                             </div>
-                        </div>   
-                    </div> 
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="contact-info bottom">
                         <h2>Contacts</h2>
                         <address>
-                        E-mail: <a href="mailto:someone@example.com">email@email.com</a> <br> 
-                        Phone: +1 (123) 456 7890 <br> 
-                        Fax: +1 (123) 456 7891 <br> 
+                            E-mail: <a href="mailto:someone@example.com">email@email.com</a>
+                            <br> Phone: +1 (123) 456 7890
+                            <br> Fax: +1 (123) 456 7891
+                            <br>
                         </address>
-
                         <h2>Address</h2>
                         <address>
-                        Unit C2, St.Vincent's Trading Est., <br> 
-                        Feeder Road, <br> 
-                        Bristol, BS2 0UY <br> 
-                        United Kingdom <br> 
+                            Unit C2, St.Vincent's Trading Est.,
+                            <br> Feeder Road,
+                            <br> Bristol, BS2 0UY
+                            <br> United Kingdom
+                            <br>
                         </address>
                     </div>
                 </div>
@@ -489,7 +485,7 @@ $(function() {
                             </div>
                             <div class="form-group">
                                 <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your text here"></textarea>
-                            </div>                        
+                            </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-submit" value="Submit">
                             </div>
@@ -506,12 +502,11 @@ $(function() {
         </div>
     </footer>
     <!--/#footer-->
-
-
     <script type="text/javascript" src="multicolor/js/jquery.js"></script>
     <script type="text/javascript" src="multicolor/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="multicolor/js/lightbox.min.js"></script>
     <script type="text/javascript" src="multicolor/js/wow.min.js"></script>
-    <script type="text/javascript" src="multicolor/js/main.js"></script> 
+    <script type="text/javascript" src="multicolor/js/main.js"></script>
 </body>
+
 </html>
