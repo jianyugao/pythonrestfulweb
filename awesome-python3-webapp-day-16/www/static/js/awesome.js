@@ -333,7 +333,7 @@ function getJSON(url, data, callback) {
     if (typeof (data)==='object') {
         var arr = [];
         $.each(data, function (k, v) {
-            arr.push(k + '=' + encodeURIComponent(v));
+            arr.push(k + '=' +  (v));
         });
         data = arr.join('&');
     }

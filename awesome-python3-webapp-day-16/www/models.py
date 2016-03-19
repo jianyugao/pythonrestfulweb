@@ -29,8 +29,8 @@ class User(Model):
 class Blog(Model):
     __table__ = 'blogs'
 
-    # id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
-    id = StringField(primary_key=True, ddl='int(11)')
+    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    #id = StringField(primary_key=True, ddl='int(11)')
     user_identity = StringField(ddl='varchar(50)')
     user_id = StringField(ddl='varchar(50)')
     user_name = StringField(ddl='varchar(50)')

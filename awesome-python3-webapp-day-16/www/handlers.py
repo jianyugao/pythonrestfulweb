@@ -92,6 +92,18 @@ def index(*, page='1'):
         'blogs': blogs
     }
 
+# @get('/blog/{id}')
+# def get_blog(id):
+#     blog = yield from Blog.find(id)
+#     comments = yield from Comment.findAll('blog_id=?', [id], orderBy='created_at desc')
+#     for c in comments:
+#         c.html_content = text2html(c.content)
+#     blog.html_content = markdown2.markdown(blog.content)
+#     return {
+#         '__template__': 'blog.html',
+#         'blog': blog,
+#         'comments': comments
+#     }
 @get('/blog/{id}')
 def get_blog(id):
     blog = yield from Blog.find(id)
@@ -100,7 +112,7 @@ def get_blog(id):
         c.html_content = text2html(c.content)
     blog.html_content = markdown2.markdown(blog.content)
     return {
-        '__template__': 'blog.html',
+        '__template__': 'newblog.html',
         'blog': blog,
         'comments': comments
     }
@@ -120,23 +132,12 @@ def signin():
 @get('/blogtwo')
 def signinpython():
     blogs = yield from Blog.findAll(orderBy='created_at desc')
-    blogsleft = []
-    blogsright = []
     logging.info("################the len of blogs:"+str(len(blogs)))
-    ishu = 0
-    for i in range(0, len(blogs)):
-        if i%2==0:
-            blogsleft.append(blogs[i])
-        else:
-            blogsright.append(blogs[i])
 
     return {
         '__template__': 'blogtwo.html',
         'currenttime': datetime.now().strftime("%B %H %M %Y"),
-        'blogsleft': blogsleft,
-        'blogsright': blogsright,
         'blogs':blogs,
-        # 'ishu':ishu
     }
 
 @post('/api/authenticate')
@@ -193,10 +194,17 @@ def manage_blogs(*, page='1'):
         'page_index': get_page_index(page)
     }
 
+# @get('/manage/blogs/create')
+# def manage_create_blog():
+#     return {
+#         '__template__': 'manage_blog_edit.html',
+#         'id': '',
+#         'action': '/api/blogs'
+#     }
 @get('/manage/blogs/create')
 def manage_create_blog():
     return {
-        '__template__': 'manage_blog_edit.html',
+        '__template__': 'new_manage_blog_edit.html',
         'id': '',
         'action': '/api/blogs'
     }
@@ -314,6 +322,7 @@ def api_create_blog(request, *, name, summary, content):
         raise APIValueError('content', 'content cannot be empty.')
     blog = Blog(user_identity='Marine',user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
+    logging.info("###################Create new blogs here####################")
     return blog
 
 @post('/api/blogs/{id}')
