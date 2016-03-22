@@ -284,6 +284,7 @@ $(function () {
                 callback = data;
                 data = {};
             }
+            
             return this.each(function () {
                 var $form = $(this); // this is already an object, why use '$(this)'' again instead of using 'this' alone?
                 $form.showFormError();

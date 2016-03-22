@@ -129,6 +129,14 @@ def signin():
         '__template__': 'signin.html'
     }
 
+@get('/marine')
+def marinehome():
+    blogs = yield from Blog.findAll(orderBy='created_at desc')
+    logging.info('#####marine blogs######')
+    return {
+    '__template__':'marine.html',
+
+    }
 @get('/blogtwo')
 def signinpython():
     blogs = yield from Blog.findAll(orderBy='created_at desc')
@@ -174,6 +182,12 @@ def signout(request):
     r.set_cookie(COOKIE_NAME, '-deleted-', max_age=0, httponly=True)
     logging.info('user signed out.')
     return r
+
+
+@get('/cover')
+def homepage():
+    logging.info("######coverhtml")
+    return {'__template__': 'cover.html'}
 
 @get('/manage/')
 def manage():
@@ -244,6 +258,8 @@ def api_create_comment(id, request, *, content):
     blog = yield from Blog.find(id)
     if blog is None:
         raise APIResourceNotFoundError('Blog')
+        logging.info("######the current user is: %s %s" % (user.id, blog.id))
+        logging.info("######the contetn is: %s %s" % content.strip())
     comment = Comment(blog_id=blog.id, user_id=user.id, user_name=user.name, user_image=user.image, content=content.strip())
     yield from comment.save()
     return comment

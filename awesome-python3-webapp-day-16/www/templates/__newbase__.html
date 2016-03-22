@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>MARINE | Priates' King</title>
+    <title>{% block title%}? {% endblock %}--MARINE | Priates' King</title>
     <link href="multicolor/css/bootstrap.min.css" rel="stylesheet">
     <link href="multicolor/css/font-awesome.min.css" rel="stylesheet">
     <link href="multicolor/css/lightbox.css" rel="stylesheet">
@@ -26,6 +26,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="multicolor/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="multicolor/images/ico/apple-touch-icon-57-precomposed.png">
 -->
+
     <script type="text/javascript" src="multicolor/js/jquery.js"></script>
     <script src="/static/js/vue.min.js"></script>
     <script src="/static/js/awesome.js"></script>
@@ -124,68 +125,13 @@
         });
     });
     </script>
+    {% block beforehead %}<!-- before head  -->{% endblock %}
 </head>
 <!--/head-->
-
+    
 <body>
-    <!-- ADD BY GARY  Signin-->
-    <div id="signin" class="modal-content" style="display:none">
-        <div class="modal-header">
-            <button type="button" class="close" onclick="hideSignin()">x</button>
-            <h1><img src="multicolor/images/marine2.png" alt="logo"></h1>
-        </div>
-        <div class="modal-body">
-            <form id="vm" v-on="submit:submit" class="form col-md-12 center-block">
-                <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                <div class="form-group">
-                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input v-model="password" type="password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                    <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
-                    <!-- <span><a href="#">找回密码</a></span>
-            <span><a href="#" class="pull-right">注册</a></span> -->
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer"></div>
-    </div>
-    <!-- ADD BY GARY  -->
-    <!-- ADD BY GARY  Signup-->
-    <div id="signup" class="modal-content" style="display:none">
-        <div class="modal-header">
-            <button type="button" class="close" onclick="hideSignup()">x</button>
-            <h1><img src="multicolor/images/marine2.png" alt="logo"></h1>
-        </div>
-        <div class="modal-body">
-            <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
-                <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                <div class="form-group">
-                    <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
-                </div>
-                <div class="form-group">
-                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input v-model="password1" type="password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <input v-model="password2" type="password" class="form-control input-lg" placeholder="Confirm Password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
-                    <!--  <span><a href="#">找回密码</a></span>
-           <span><a href="#" class="pull-right">注册</a></span> -->
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
-    <!-- ADD BY GARY  -->
+    {% block content %}
+    {% endblock %}
     <header id="header">
         <div class="container">
             <div class="row">
@@ -199,6 +145,7 @@
                             <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
                             <!-- <li><a href="/signin"><i class="uk-icon-sign-in"></i> Sign in</a></li> -->
                             {% if __user__ %}
+                            
                             <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
                             <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
                             {% else %}

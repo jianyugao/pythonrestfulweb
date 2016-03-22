@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,31 +9,78 @@
     <title>Blog Details | Triangle</title>
     <link href="../multicolor/css/bootstrap.min.css" rel="stylesheet">
     <link href="../multicolor/css/font-awesome.min.css" rel="stylesheet">
-    <link href="../multicolor/css/lightbox.css" rel="stylesheet"> 
-    <link href="../multicolor/css/animate.min.css" rel="stylesheet"> 
+    <link href="../multicolor/css/lightbox.css" rel="stylesheet">
+    <link href="../multicolor/css/animate.min.css" rel="stylesheet">
     <link href="../multicolor/css/main.css" rel="stylesheet">
     <link href="../multicolor/css/responsive.css" rel="stylesheet">
-
     <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
-    <![endif]-->       
+    <![endif]-->
     <link rel="shortcut icon" href="../multicolor/images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../multicolor/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../multicolor/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../multicolor/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../multicolor/images/ico/apple-touch-icon-57-precomposed.png">
-    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="../multicolor/js/jquery.js"></script>
+    <script type="text/javascript" src="../multicolor/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/lightbox.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/wow.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/main.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+  <!-- <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
+    <script src="/static/js/sticky.min.js"></script>-->
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/awesome.js"></script>
+
+    <script type="text/javascript">
+    var switchTo5x = true;
+    </script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-    <script type="text/javascript">stLight.options({publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
-</head><!--/head-->
+    <script type="text/javascript">
+    stLight.options({
+        publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df",
+        doNotHash: false,
+        doNotCopy: false,
+        hashAddressBar: false
+    });
+    </script>
+    <script>
+    var comment_url = '/api/blogs/{{ blog.id }}/comments';
+
+    $(function() {
+        var $form = $('#form-comment');
+        $form.submit(function(e) {
+            e.preventDefault();
+            $form.showFormError('');
+            var content = $form.find('textarea').val().trim();
+            if (content === '') {
+                console.log("##############No comments");
+                return $form.showFormError('No comments!');
+            }
+            console.log("this is contetn:##", content);
+            $form.postJSON(comment_url, {
+                content: content
+            }, function(err, result) {
+                if (err) {
+                    return $form.showFormError(err);
+                }
+                refresh();
+                console.log("$$$fresh");
+            });
+        });
+    });
+    </script>
+</head>
+<!--/head-->
 
 <body>
-    <header id="header">      
+    <header id="header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 overflow">
-                   <div class="social-icons pull-right">
+                    <div class="social-icons pull-right">
                         <ul class="nav nav-pills">
                             <li><a href=""><i class="fa fa-facebook"></i></a></li>
                             <li><a href=""><i class="fa fa-twitter"></i></a></li>
@@ -40,9 +88,9 @@
                             <li><a href=""><i class="fa fa-dribbble"></i></a></li>
                             <li><a href=""><i class="fa fa-linkedin"></i></a></li>
                         </ul>
-                    </div> 
+                    </div>
                 </div>
-             </div>
+            </div>
         </div>
         <div class="navbar navbar-inverse" role="banner">
             <div class="container">
@@ -53,11 +101,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
                     <a class="navbar-brand" href="index.html">
                         <h1><img src="../multicolor/images/logo.png" alt="logo"></h1>
                     </a>
-                    
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -73,7 +119,7 @@
                                 <li><a href="404.html">404 error</a></li>
                                 <li><a href="coming-soon.html">Coming Soon</a></li>
                             </ul>
-                        </li>                    
+                        </li>
                         <li class="dropdown active"><a href="blog.html">Blog <i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="blog.html">Blog Default</a></li>
@@ -93,8 +139,8 @@
                                 <li><a href="portfoliothree.html">2 Columns</a></li>
                                 <li><a href="portfolio-details.html">Portfolio Details</a></li>
                             </ul>
-                        </li>                         
-                        <li><a href="shortcodes.html ">Shortcodes</a></li>                    
+                        </li>
+                        <li><a href="shortcodes.html ">Shortcodes</a></li>
                     </ul>
                 </div>
                 <div class="search">
@@ -109,17 +155,15 @@
         </div>
     </header>
     <!--/#header-->
-
-
     <section id="page-breadcrumb">
         <div class="vertical-center sun">
-             <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="action">
                         <div class="col-sm-12">
                             <h1 class="title">Blog Details</h1>
                             <p>Blog with right sidebar</p>
-                        </div>                                                                                
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,7 +176,7 @@
             <div class="row">
                 <div class="col-md-9 col-sm-7">
                     <div class="row">
-                         <div class="col-md-12 col-sm-12">
+                        <div class="col-md-12 col-sm-12">
                             <div class="single-blog blog-details two-column">
                                 <div class="post-thumb">
                                     <a href="#"><img src="../multicolor/images/blog/7.jpg" class="img-responsive" alt=""></a>
@@ -144,6 +188,7 @@
                                     <h2 class="post-title bold"><a href="#">{{blog.name}}</a></h2>
                                     <h3 class="post-author"><a href="#">Posted by {{blog.user_name}}</a></h3>
                                     <p>{{blog.summary}}</p>
+                                    <p>{{blog.content}}</p>
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
@@ -164,48 +209,82 @@
                                                 <img src="../multicolor/images/blogdetails/1.png" alt="">
                                             </div>
                                             <div class="col-sm-10">
-                                                <h3>Rodrix Hasel</h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</p>
-                                                <span>Website:<a href="www.jooomshaper.com"> www.jooomshaper.com</a></span>
+                                                <form id="form-comment" class="uk-form">
+                                                    <div class="uk-alert uk-alert-danger uk-hidden"></div>
+                                                    <div class="form-group">
+                                                        <textarea rows="4" name="content" class="form-control" required="required" placeholder="Comments Here"></textarea>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3 pull-right">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-submit"><i class="uk-icon-save"></i> submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="response-area">
-                                    <h2 class="bold">Comments</h2>
-                                    <ul class="media-list">
-                                        <li class="media">
-                                            <div class="post-comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="media-object" src="../multicolor/images/blogdetails/2.png" alt="">
-                                                </a>
-                                                <div class="media-body">
-                                                    <span><i class="fa fa-user"></i>Posted by <a href="#">Endure</a></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
-                                                        <li><a href="#"><i class="fa fa-reply"></i>Reply</a></li>
+                                        <h2 class="bold">Comments</h2>
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <div class="post-comment">
+                                                    <a class="pull-left" href="#">
+                                                        <img class="media-object" src="../multicolor/images/blogdetails/2.png" alt="">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <span><i class="fa fa-user"></i>Posted by <a href="#">Endure</a></span>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
+                                                        <ul class="nav navbar-nav post-nav">
+                                                            <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
+                                                            <li><a href="#"><i class="fa fa-reply"></i>Reply</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="parrent">
+                                                    <ul class="media-list">
+                                                        <li class="post-comment reply">
+                                                            <a class="pull-left" href="#">
+                                                                <img class="media-object" src="../multicolor/images/blogdetails/3.png" alt="">
+                                                            </a>
+                                                            <div class="media-body">
+                                                                <span><i class="fa fa-user"></i>Posted by <a href="#">Endure</a></span>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </p>
+                                                                <ul class="nav navbar-nav post-nav">
+                                                                    <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
                                                     </ul>
                                                 </div>
-                                            </div>
-                                            <div class="parrent">
-                                                <ul class="media-list">
-                                                    <li class="post-comment reply">
+                                             {% for comment in comments %}
+                                                <div class="post-comment">
                                                         <a class="pull-left" href="#">
-                                                            <img class="media-object" src="../multicolor/images/blogdetails/3.png" alt="">
+                                                             <img class="media-object" src="../multicolor/images/blogdetails/4.png" alt="">
                                                         </a>
-                                                        <div class="media-body">
-                                                            <span><i class="fa fa-user"></i>Posted by <a href="#">Endure</a></span>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </p>
-                                                            <ul class="nav navbar-nav post-nav">
-                                                                <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="media">
+                                                    <div class="media-body">
+                                                        <span><i class="fa fa-user"></i>Posted by <a href="#">{{ comment.user_name }}{% if comment.user_id==blog.user_id %}(作者){% endif %}</a></span>
+                                                        <p>{{ comment.html_content|safe }}</p>
+                                                        <ul class="nav navbar-nav post-nav">
+                                                            <li><a href="#"><i class="fa fa-clock-o"></i>{{ comment.created_at|datetime }}</a></li>
+                                                            <li><a href="#"><i class="fa fa-reply"></i>Reply</a></li>
+                                                        </ul>
+                                                    </div>
+                                                   
+                                                
+                                            </div> 
+                                            {% else %}
                                             <div class="post-comment">
+                                                    <div class="media-body">
+                                                        <p>还没有人评论...</p>
+                                                    </div>
+                                            </div>
+                                                 {% endfor %}  
+                                            <!-- add by gary -->
+                                            </li>
+
+                                            
+                                                                                          
+                                                                                    <!-- <div class="post-comment">
                                                 <a class="pull-left" href="#">
                                                     <img class="media-object" src="../multicolor/images/blogdetails/4.png" alt="">
                                                 </a>
@@ -217,16 +296,15 @@
                                                         <li><a href="#"><i class="fa fa-reply"></i>Reply</a></li>
                                                     </ul>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        
-                                    </ul>                   
-                                </div><!--/Response-area-->
+                                            </div> -->
+                                        </ul>
+                                    </div>
+                                    <!--/Response-area-->
                                 </div>
                             </div>
                         </div>
                     </div>
-                 </div>
+                </div>
                 <div class="col-md-3 col-sm-5">
                     <div class="sidebar blog-sidebar">
                         <div class="sidebar-item  recent">
@@ -237,7 +315,7 @@
                                 </div>
                                 <div class="media-body">
                                     <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on  07 March 2014</p>
+                                    <p>posted on 07 March 2014</p>
                                 </div>
                             </div>
                             <div class="media">
@@ -246,7 +324,7 @@
                                 </div>
                                 <div class="media-body">
                                     <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on  07 March 2014</p>
+                                    <p>posted on 07 March 2014</p>
                                 </div>
                             </div>
                             <div class="media">
@@ -255,7 +333,7 @@
                                 </div>
                                 <div class="media-body">
                                     <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on  07 March 2014</p>
+                                    <p>posted on 07 March 2014</p>
                                 </div>
                             </div>
                         </div>
@@ -286,12 +364,24 @@
                         <div class="sidebar-item popular">
                             <h3>Latest Photos</h3>
                             <ul class="gallery">
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular1.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular2.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular3.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular4.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular5.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="../multicolor/images/portfolio/popular1.jpg" alt=""></a></li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular1.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular2.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular3.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular4.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular5.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="../multicolor/images/portfolio/popular1.jpg" alt=""></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -300,7 +390,6 @@
         </div>
     </section>
     <!--/#blog-->
-
     <footer id="footer">
         <div class="container">
             <div class="row">
@@ -318,7 +407,7 @@
                                 <blockquote>Nisi commodo bresaola, leberkas venison eiusmod bacon occaecat labore tail.</blockquote>
                                 <h3><a href="#">- Jhon Kalis</a></h3>
                             </div>
-                         </div>
+                        </div>
                         <div class="media">
                             <div class="pull-left">
                                 <a href="#"><img src="../multicolor/images/home/profile2.png" alt=""></a>
@@ -327,24 +416,25 @@
                                 <blockquote>Capicola nisi flank sed minim sunt aliqua rump pancetta leberkas venison eiusmod.</blockquote>
                                 <h3><a href="">- Abraham Josef</a></h3>
                             </div>
-                        </div>   
-                    </div> 
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="contact-info bottom">
                         <h2>Contacts</h2>
                         <address>
-                        E-mail: <a href="mailto:someone@example.com">email@email.com</a> <br> 
-                        Phone: +1 (123) 456 7890 <br> 
-                        Fax: +1 (123) 456 7891 <br> 
+                            E-mail: <a href="mailto:someone@example.com">email@email.com</a>
+                            <br> Phone: +1 (123) 456 7890
+                            <br> Fax: +1 (123) 456 7891
+                            <br>
                         </address>
-
                         <h2>Address</h2>
                         <address>
-                        Unit C2, St.Vincent's Trading Est., <br> 
-                        Feeder Road, <br> 
-                        Bristol, BS2 0UY <br> 
-                        United Kingdom <br> 
+                            Unit C2, St.Vincent's Trading Est.,
+                            <br> Feeder Road,
+                            <br> Bristol, BS2 0UY
+                            <br> United Kingdom
+                            <br>
                         </address>
                     </div>
                 </div>
@@ -360,7 +450,7 @@
                             </div>
                             <div class="form-group">
                                 <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your text here"></textarea>
-                            </div>                        
+                            </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-submit" value="Submit">
                             </div>
@@ -377,12 +467,10 @@
         </div>
     </footer>
     <!--/#footer-->
-
-
     <script type="text/javascript" src="../multicolor/js/jquery.js"></script>
     <script type="text/javascript" src="../multicolor/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../multicolor/js/lightbox.min.js"></script>
     <script type="text/javascript" src="../multicolor/js/wow.min.js"></script>
-    <script type="text/javascript" src="../multicolor/js/main.js"></script>   
+    <script type="text/javascript" src="../multicolor/js/main.js"></script>
 </body>
-</html>
+</
