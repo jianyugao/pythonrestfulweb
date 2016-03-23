@@ -1,83 +1,85 @@
-{% extends '__newbase__.html'%}
-{% block title%} Marine {% endblock %}
-
-{% block beforehead %}
+{% extends '__newbase__.html'%} {% block title%} Marine {% endblock %} {% block beforehead %}
 <script>
 </script>
 {% endblock %}
 <!--/head-->
 {% block content %}
- <!-- ADD BY GARY  Signin-->
-    <div id="signin" class="modal-content" style="display:none">
-        <div class="modal-header">
-            <button type="button" class="close" onclick="hideSignin()">x</button>
-            <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
-        </div>
-        <div class="modal-body">
-            <form id="vm" v-on="submit:submit" class="form col-md-12 center-block">
-                <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                <div class="form-group">
-                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input v-model="password" type="password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                    <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
-                    <!-- <span><a href="#">找回密码</a></span>
+<!-- ADD BY GARY  Signin-->
+<div id="signin" class="modal-content" style="display:none">
+    <div class="modal-header">
+        <button type="button" class="close" onclick="hideSignin()">x</button>
+        <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
+    </div>
+    <div class="modal-body">
+        <form id="vm" v-on="submit:submit" class="form col-md-12 center-block">
+            <div class="uk-alert uk-alert-danger uk-hidden"></div>
+            <div class="form-group">
+                <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input v-model="password" type="password" class="form-control input-lg" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
+                <!-- <span><a href="#">找回密码</a></span>
             <span><a href="#" class="pull-right">注册</a></span> -->
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer"></div>
+            </div>
+        </form>
     </div>
-    <!-- ADD BY GARY  -->
-    <!-- ADD BY GARY  Signup-->
-    <div id="signup" class="modal-content" style="display:none">
-        <div class="modal-header">
-            <button type="button" class="close" onclick="hideSignup()">x</button>
-            <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
-        </div>
-        <div class="modal-body">
-            <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
-                <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                <div class="form-group">
-                    <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
-                </div>
-                <div class="form-group">
-                    <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input v-model="password1" type="password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <input v-model="password2" type="password" class="form-control input-lg" placeholder="Confirm Password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
-                    <!--  <span><a href="#">找回密码</a></span>
+    <div class="modal-footer"></div>
+</div>
+<!-- ADD BY GARY  -->
+<!-- ADD BY GARY  Signup-->
+<div id="signup" class="modal-content" style="display:none">
+    <div class="modal-header">
+        <button type="button" class="close" onclick="hideSignup()">x</button>
+        <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
+    </div>
+    <div class="modal-body">
+        <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
+            <div class="uk-alert uk-alert-danger uk-hidden"></div>
+            <div class="form-group">
+                <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
+            </div>
+            <div class="form-group">
+                <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input v-model="password1" type="password" class="form-control input-lg" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input v-model="password2" type="password" class="form-control input-lg" placeholder="Confirm Password">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+                <!--  <span><a href="#">找回密码</a></span>
            <span><a href="#" class="pull-right">注册</a></span> -->
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-        </div>
+            </div>
+        </form>
     </div>
-    <!-- ADD BY GARY  -->
-{% endblock %}
-<body>
-    <header id="header">
+    <div class="modal-footer">
+    </div>
+</div>
+<!-- ADD BY GARY  -->
+<header id="header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 overflow">
                     <div class="social-icons pull-right">
                         <ul class="nav nav-pills">
-                            <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                            <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                            <!-- <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                            <li><a href=""><i class="fa fa-twitter"></i></a></li> 
                             <li><a href=""><i class="fa fa-google-plus"></i></a></li>
                             <li><a href=""><i class="fa fa-dribbble"></i></a></li>
-                            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
+                            {% if __user__ %}
+                                <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
+                                <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
+                            {% else %}
+                                <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>Sign in</a></li>
+                                <li><a onclick="selectSignup()"><i class="uk-icon-edit"></i>Sign up</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -92,8 +94,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html" >
-                        <h1><img src="../multicolor/images/marine1.png" style="width:150px" alt="logo"></h1>
+                    <a class="navbar-brand" href="index.html">
+                        <h1><img src="static/images/onepiece/marine1.png" alt="logo"></h1>
                     </a>
                 </div>
                 <div class="collapse navbar-collapse">
@@ -111,12 +113,12 @@
                                 <li><a href="coming-soon.html">Coming Soon</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown active"><a href="blog.html">Blog <i class="fa fa-angle-down"></i></a>
+                        <li class="dropdown"><a href="#">Blog <i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="blog.html">Blog Default</a></li>
-                                <li><a href="blogtwo.html">Timeline Blog</a></li>
+                                <li><a class="active" href="blogtwo.html">Timeline Blog</a></li>
                                 <li><a href="blogone.html">2 Columns + Right Sidebar</a></li>
-                                <li><a class="active" href="blogthree.html">1 Column + Left Sidebar</a></li>
+                                <li><a href="blogthree.html">1 Column + Left Sidebar</a></li>
                                 <li><a href="blogfour.html">Blog Masonary</a></li>
                                 <li><a href="blogdetails.html">Blog Details</a></li>
                             </ul>
@@ -145,6 +147,7 @@
             </div>
         </div>
     </header>
+
     <!--/#header-->
     <section id="page-breadcrumb">
         <div class="vertical-center sun">
@@ -167,10 +170,18 @@
                 <div class="col-md-3 col-sm-5">
                     <div class="sidebar blog-sidebar">
                         <div class="sidebar-item  recent">
-                            <h3>Comments</h3>
+                            <h3>Schedule</h3>
                             <div class="media">
                                 <div class="pull-left">
-                                    <a href="#"><img src="images/portfolio/project1.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/project1.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="/manage/blogs/create">New Blog</a></h4>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="static/images/portfolio/project2.jpg" alt=""></a>
                                 </div>
                                 <div class="media-body">
                                     <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
@@ -179,16 +190,7 @@
                             </div>
                             <div class="media">
                                 <div class="pull-left">
-                                    <a href="#"><img src="images/portfolio/project2.jpg" alt=""></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on 07 March 2014</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <a href="#"><img src="images/portfolio/project3.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/project3.jpg" alt=""></a>
                                 </div>
                                 <div class="media-body">
                                     <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
@@ -224,22 +226,22 @@
                             <h3>Latest Photos</h3>
                             <ul class="gallery">
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular1.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular1.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular2.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular2.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular3.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular3.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular4.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular4.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular5.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular5.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="images/portfolio/popular1.jpg" alt=""></a>
+                                    <a href="#"><img src="static/images/portfolio/popular1.jpg" alt=""></a>
                                 </li>
                             </ul>
                         </div>
@@ -248,17 +250,18 @@
                 <div class="col-md-9 col-sm-7">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
+                            {% for blog in blogs %}
                             <div class="single-blog two-column">
                                 <div class="post-thumb">
-                                    <a href="blogdetails.html"><img src="images/blog/7.jpg" class="img-responsive" alt=""></a>
+                                    <a href="blogdetails.html"><img src="static/images/blog/7.jpg" class="img-responsive" alt=""></a>
                                     <div class="post-overlay">
-                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                        <span class="uppercase"><a href="http://onepiece.wikia.com/wiki/Marines"><small>{{blog.user_identity}}</small></a></span>
                                     </div>
                                 </div>
                                 <div class="post-content overflow">
-                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
-                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
-                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <h2 class="post-title bold"><a href="/blog/{{blog.id}}">{{blog.name}}</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by {{blog.user_name}}  {{blog.created_at | datetime}}</a></h3>
+                                    <p>{{blog.summary}}</p>
                                     <a href="#" class="read-more">View More</a>
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
@@ -269,9 +272,11 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="blog-pagination">
+                            {{ pagination('/marine?page=', page) }}
+                    <!-- <div class="blog-pagination">
                         <ul class="pagination">
                             <li><a href="#">left</a></li>
                             <li><a href="#">1</a></li>
@@ -285,7 +290,7 @@
                             <li><a href="#">9</a></li>
                             <li><a href="#">right</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -295,14 +300,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 text-center bottom-separator">
-                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                    <img src="static/images/home/under.png" class="img-responsive inline" alt="">
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="testimonial bottom">
                         <h2>Testimonial</h2>
                         <div class="media">
                             <div class="pull-left">
-                                <a href="#"><img src="images/home/profile1.png" alt=""></a>
+                                <a href="#"><img src="static/images/home/profile1.png" alt=""></a>
                             </div>
                             <div class="media-body">
                                 <blockquote>Nisi commodo bresaola, leberkas venison eiusmod bacon occaecat labore tail.</blockquote>
@@ -311,7 +316,7 @@
                         </div>
                         <div class="media">
                             <div class="pull-left">
-                                <a href="#"><img src="images/home/profile2.png" alt=""></a>
+                                <a href="#"><img src="static/images/home/profile2.png" alt=""></a>
                             </div>
                             <div class="media-body">
                                 <blockquote>Capicola nisi flank sed minim sunt aliqua rump pancetta leberkas venison eiusmod.</blockquote>
@@ -368,10 +373,9 @@
         </div>
     </footer>
     <!--/#footer-->
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/lightbox.min.js"></script>
-    <script type="text/javascript" src="js/wow.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-</body>
-
+    <script type="text/javascript" src="../multicolor/js/jquery.js"></script>
+    <script type="text/javascript" src="../multicolor/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/lightbox.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/wow.min.js"></script>
+    <script type="text/javascript" src="../multicolor/js/main.js"></script>
+{% endblock %} 

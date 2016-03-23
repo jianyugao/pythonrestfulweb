@@ -76,22 +76,24 @@ def cookie2user(cookie_str):
         logging.exception(e)
         return None
 
-@get('/')
-def index(*, page='1'):
-    page_index = get_page_index(page)
-    num = yield from Blog.findNumber('count(id)')
-    page = Page(num)
-    if num == 0:
-        blogs = []
-    else:
-        blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(page.offset, page.limit))
+# @get('/')
+# def index(*, page='1'):
+#     page_index = get_page_index(page)
+#     num = yield from Blog.findNumber('count(id)')
+#     page = Page(num)
+#     if num == 0:
+#         blogs = []
+#     else:
+#         blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(page.offset, page.limit))
     
-    return {
-        '__template__': 'blogs.html',
-        'page': page,
-        'blogs': blogs
-    }
-
+#     return {
+#         '__template__': 'blogs.html',
+#         'page': page,
+#         'blogs': blogs
+#     }
+@get('/')
+def homepage():
+    return {'__template__': 'cover.html'}
 # @get('/blog/{id}')
 # def get_blog(id):
 #     blog = yield from Blog.find(id)
@@ -130,13 +132,21 @@ def signin():
     }
 
 @get('/marine')
-def marinehome():
-    blogs = yield from Blog.findAll(orderBy='created_at desc')
-    logging.info('#####marine blogs######')
+def marinehome(*, page='1'):
+    page_index = get_page_index(page)
+    num = yield from Blog.findNumber('count(id)')
+    page = Page(num, page_index)
+    if num == 0:
+        blogs = []
+    else:
+        blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(page.offset, page.limit))
+    
     return {
-    '__template__':'marine.html',
-
+        '__template__': 'marine.html',
+        'page': page,
+        'blogs': blogs
     }
+    
 @get('/blogtwo')
 def signinpython():
     blogs = yield from Blog.findAll(orderBy='created_at desc')
@@ -158,6 +168,7 @@ def authenticate(*, email, password):
     if len(users) == 0:
         raise APIValueError('email', 'Email not exist.')
     user = users[0]
+
     print("####################authenticate successed11")
     # check passwd:
     sha1 = hashlib.sha1()
@@ -172,6 +183,7 @@ def authenticate(*, email, password):
     r.set_cookie(COOKIE_NAME, user2cookie(user, 86400), max_age=86400, httponly=True)
     user.password = '******'
     r.content_type = 'application/json'
+    r.identity = user.identity
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
 
@@ -184,10 +196,10 @@ def signout(request):
     return r
 
 
-@get('/cover')
-def homepage():
-    logging.info("######coverhtml")
-    return {'__template__': 'cover.html'}
+# @get('/cover')
+# def homepage():
+#     logging.info("######coverhtml")
+#     return {'__template__': 'cover.html'}
 
 @get('/manage/')
 def manage():

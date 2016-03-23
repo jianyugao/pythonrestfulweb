@@ -23,7 +23,7 @@ class User(Model):
     admin = BooleanField()
     name = StringField(ddl='varchar(50)')
     image = StringField(ddl='varchar(500)')
-    #identity = StringField(ddl='varchar(50)')
+    identity = StringField(ddl='varchar(50)')
     created_at = FloatField(default=time.time)
 
 class Blog(Model):
