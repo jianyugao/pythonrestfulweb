@@ -165,6 +165,22 @@ loginModal
 #loginModal .modal-content{
   position: relative;
 }
+.logfixed{
+position:fixed; 
+left: 50%; 
+top: 50%; 
+/*width:100px; 
+line-height:30px; 
+background: #FC6; 
+border:1px solid #F90;*/
+/*margin-left:width/2;
+margin-top:height/2;  */
+margin:-100px 0 0 -200px; 
+background: #FFFFFF;
+border: 1px solid #99999;
+/*width:300px; 宽为400,那么margin-top为-200px 
+height:200px; */
+}
 /*************************
 *******Header******
 **************************/

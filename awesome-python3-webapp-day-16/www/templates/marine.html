@@ -1,17 +1,20 @@
-{% extends '__newbase__.html'%} {% block title%} Marine {% endblock %} {% block beforehead %}
-<script>
-</script>
+{% extends '__newbase__.html'%} 
+{% block title%} Marine {% endblock %} 
+{% block beforehead %}
+
 {% endblock %}
 <!--/head-->
 {% block content %}
 <!-- ADD BY GARY  Signin-->
-<div id="signin" class="modal-content" style="display:none">
+<div class="container">
+<div class="col-md-7 col-sm-11 ">
+<div id="signin" class="modal-content search" style="display:none">
     <div class="modal-header">
         <button type="button" class="close" onclick="hideSignin()">x</button>
-        <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
+        <h1><img src="static/images/onepiece/marine2.png" class="text-center center-block" alt="logo"></h1>
     </div>
-    <div class="modal-body">
-        <form id="vm" v-on="submit:submit" class="form col-md-12 center-block">
+    <div class="modal-body ">
+        <form id="vm" v-on="submit:submit" class="form col-md-12 ">
             <div class="uk-alert uk-alert-danger uk-hidden"></div>
             <div class="form-group">
                 <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
@@ -21,26 +24,65 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button> -->
+                <!-- <button class="btn btn-primary btn-lg btn-block">Forgot password</button>
                 <!-- <span><a href="#">找回密码</a></span>
-            <span><a href="#" class="pull-right">注册</a></span> -->
+            <span><a href="#" class="pull-right">注册</a></span>-->
             </div>
         </form>
     </div>
     <div class="modal-footer"></div>
+</div>  
 </div>
+</div>
+<!-- new login form -->
+<!-- <div id="signin" class="container" style="display:none">
+<div class="card">
+    <h1 class="title">Login</h1>
+    <form>
+      <div class="input-container">
+        <input type="text" id="Username" required="required"/>
+        <label for="Username">Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password" id="Password" required="required"/>
+        <label for="Password">Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container">
+        <button><span>Go</span></button>
+      </div>
+      <div class="footer"><a href="#">Forgot your password?</a></div>
+    </form>
+  </div>
+</div> -->
+<!-- new login form -->
 <!-- ADD BY GARY  -->
 <!-- ADD BY GARY  Signup-->
-<div id="signup" class="modal-content" style="display:none">
-    <div class="modal-header">
-        <button type="button" class="close" onclick="hideSignup()">x</button>
+<!-- <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div> -->
+
+<div class="container">
+<div class="col-md-9 col-sm-11 ">
+<div id="signup" class="modal-content  search text-center center-block " style="display:none">
+    <div class="row " >  <!-- logfixed -->
+    <div class="center-block col-md-5 col-sm-5">
+        <button type="button" class="close pull-left" style="padding: 5px 20px"onclick="hideSignup()">x</button>
         <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
+        <p>Marine</p>
     </div>
-    <div class="modal-body">
+    <div class="modal-body col-md-7  col-sm-7">
+        
         <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
             <div class="uk-alert uk-alert-danger uk-hidden"></div>
             <div class="form-group">
-                <input v-model="username" type="text" class="form-control input-lg" placeholder="2susername">
+                <input v-model="username" type="text" class="form-control input-lg" placeholder="username">
             </div>
             <div class="form-group">
                 <input v-model="email" type="text" class="form-control input-lg" placeholder="Email">
@@ -54,12 +96,15 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
                 <!--  <span><a href="#">找回密码</a></span>
-           <span><a href="#" class="pull-right">注册</a></span> -->
+           <span><a href="#" class="pull-right">注册</a></span>-->
             </div>
         </form>
+    </div> 
+    <!-- <div class="modal-footer">
+    </div> -->
     </div>
-    <div class="modal-footer">
-    </div>
+</div>
+</div>
 </div>
 <!-- ADD BY GARY  -->
 <header id="header">
@@ -73,7 +118,7 @@
                             <li><a href=""><i class="fa fa-google-plus"></i></a></li>
                             <li><a href=""><i class="fa fa-dribbble"></i></a></li>
                             <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
-                            {% if __user__ %}
+                            {% if __user__ &&(__user__.identity=="marine")%}
                                 <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
                                 <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
                             {% else %}
