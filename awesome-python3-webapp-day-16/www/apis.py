@@ -9,6 +9,11 @@ JSON API definition.
 
 import json, logging, inspect, functools
 
+class Seemore(object):
+    def __init__(self, has_next=False, index=5):
+        index_int=int(index)
+        self.index=index_int 
+        self.has_next=has_next
 class Page(object):
     '''
     Page object for display pages.

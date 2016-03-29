@@ -232,14 +232,6 @@ class Model(dict, metaclass=ModelMetaclass):
     def save(self):
         args = list(map(self.getValueOrDefault, self.__fields__))
         args.append(self.getValueOrDefault(self.__primary_key__))
-        print("####################################")
-        '''print(args)#########
-        for index, item in enumerate(args):
-            if item is None:
-                args[index] = 123456
-        print("###############")'''
-        print("###############")
-        print(args)
         rows = yield from execute(self.__insert__, args)
         if rows != 1:
             logging.warn('failed to insert record: affected rows: %s' % rows)

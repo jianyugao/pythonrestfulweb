@@ -1,31 +1,5 @@
 <!DOCTYPE html>
-{% macro pagination(url, page) %}
-    <div class="blog-pagination">
-        <ul class="pagination">
-        {% if page.has_previous %}
-            <li><a href="{{ url }}{{ page.page_index-1}}">left</a></li>
-        {% else %}
-            <li><a href="#">left</a></li>
-        {% endif %}
-            <li class="active"><a href="#">{{page.page_index}}</a></li>
-        {% if page.has_next %}
-            <li><a href="{{ url }}{{ page.page_index+1}}">right</a></li>
-        {% else %}
-            <li><a href="#">right</a></li>
-        {% endif %}
-            <!-- <li><a href="#">left</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">6</a></li>
-            <li><a href="#">7</a></li>
-            <li><a href="#">8</a></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">right</a></li> -->
-        </ul>
-    </div>
-{% endmacro %}
+
 <html lang="en">
 
 <head>
@@ -79,49 +53,7 @@
         var re = /^[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9\_]+(\.[a-z0-9]+){1,4}$/;
         return re.test(email.toLowerCase());
     }
-    /**Sign up*/
-    $(function() {
-        var vm = new Vue({
-            el: '#upform',
-            data: {
-                username: '',
-                email: '',
-                password1: '',
-                password2: ''
-
-            },
-            methods: {
-                submit: function(data) {
-                    event.preventDefault();
-                    var $form = $('#upform');
-                    if (!this.username.trim()) {
-                        return $form.showFormError('Please enter your user name');
-                    }
-                    if (!verifyEmail(this.email)) {
-                        return $form.showFormError('Please enter correct email');
-                    }
-                    if (this.password1.length < 6) {
-                        return $form.showFormError('Password must be longer than 6 characters');
-                    }
-                    if (this.password1 !== this.password2) {
-                        return $form.showFormError('Passwords are not the same');
-                    }
-                    var email = this.email.trim().toLowerCase();
-                    $form.postJSON('/api/users', {
-                        name: this.username,
-                        email: email,
-                        passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()
-                    }, function(err, r) {
-                        if (err) {
-                            return $form.showFormError(err);
-                        }
-                        return location.assign('/');
-                    });
-                }
-            }
-        });
-        $('#upform').show();
-    });
+    
 
     /**Sign in*/
     $(function() {
@@ -148,7 +80,7 @@
                                 {
                                     location.assign('/marine');}
                             else{
-                            location.assign('/blogtwo');}
+                            location.assign('/pirate');}
                         }
                     });
                 }

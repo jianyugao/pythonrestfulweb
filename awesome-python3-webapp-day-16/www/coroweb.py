@@ -144,10 +144,13 @@ class RequestHandler(object):
 def add_static(app):
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
     path2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'multicolor')
+    path3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'singlecolor')
     app.router.add_static('/static/', path)
     app.router.add_static('/multicolor/', path2)
+    app.router.add_static('/singlecolor/', path3)
     logging.info('add static %s => %s' % ('/static/', path))
-    logging.info('add static %s => %s' % ('/multicolor/', path))
+    logging.info('add static %s => %s' % ('/multicolor/', path2))
+    logging.info('add static %s => %s' % ('/singlecolor/', path3))
 
 def add_route(app, fn):
     method = getattr(fn, '__method__', None)

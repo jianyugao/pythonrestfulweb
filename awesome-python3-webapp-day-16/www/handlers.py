@@ -5,17 +5,23 @@ __author__ = 'Michael Liao'
 
 ' url handlers '
 
-import re, time, json, logging, hashlib, base64, asyncio
+import re, time, json, logging, hashlib, base64, asyncio, flask
 
 import markdown2
 from datetime import datetime
 from aiohttp import web
 
 from coroweb import get, post
-from apis import Page, APIValueError, APIResourceNotFoundError
+from apis import Seemore, Page, APIValueError, APIResourceNotFoundError
 
 from models import User, Comment, Blog, next_id
 from config import configs
+from mytoken import generate_confirmation_token, confirm_token
+ 
+from flask import url_for
+from flask import render_template
+from sendemail import send_email
+from apis import APIError
 
 COOKIE_NAME = 'awesession'
 _COOKIE_KEY = configs.session.secret
@@ -139,7 +145,7 @@ def marinehome(*, page='1'):
     if num == 0:
         blogs = []
     else:
-        blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(page.offset, page.limit))
+        blogs = yield from Blog.findAll(orderBy='created_at desc', where='blogs.user_identity="marine"',limit=(page.offset, page.limit))
     
     return {
         '__template__': 'marine.html',
@@ -147,15 +153,18 @@ def marinehome(*, page='1'):
         'blogs': blogs
     }
     
-@get('/blogtwo')
-def signinpython():
-    blogs = yield from Blog.findAll(orderBy='created_at desc')
+@get('/pirate')
+def piratehome(*, index=2):
+    seemore = Seemore(index=index)
+    blogs = yield from Blog.findAll(orderBy='created_at desc', where='blogs.user_identity="pirate"',limit=int(index))
     logging.info("################the len of blogs:"+str(len(blogs)))
-
+    if(seemore.index <= len(blogs)):
+        seemore.has_next=True
     return {
-        '__template__': 'blogtwo.html',
+        '__template__': 'pirate.html',
         'currenttime': datetime.now().strftime("%B %H %M %Y"),
         'blogs':blogs,
+        'seemore':seemore
     }
 
 @post('/api/authenticate')
@@ -301,7 +310,7 @@ _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$'
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
 @post('/api/users')
-def api_register_user(*, email, name, passwd):
+def api_register_user(*, email, name, identity, passwd):
     if not name or not name.strip():
         raise APIValueError('name')
     if not email or not _RE_EMAIL.match(email):
@@ -313,8 +322,19 @@ def api_register_user(*, email, name, passwd):
         raise APIError('register:failed', 'email', 'Email is already in use.')
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
-    user = User(id=uid, name=name.strip(), email=email, password=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image='http://www.gravatar.com/avatar/%s?d=mm&s=120' % hashlib.md5(email.encode('utf-8')).hexdigest())
+    logging.info('################identity is %s' % identity)
+    user = User(id=uid, name=name.strip(), confirmed='0', email=email, password=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image='http://www.gravatar.com/avatar/%s?d=mm&s=120' % hashlib.md5(email.encode('utf-8')).hexdigest(), identity=identity)
+    token = generate_confirmation_token(user.email)
+    newuser='animeoneblog@gmail.com'
+    newpwd='123chenqwer'
+    # add by gary 03/28
+    # confirm_url = url_for('confirm_email', token=token, _external=True)
+    confirm_url = 'http://localhost:9001/confirm/'+token
+    # html = render_template('activate.html', confirm_url=confirm_url)
+    subject = "Please confirm your email"
+    send_email(user=newuser, pwd=newpwd, recipient=user.email,subject=subject, body=confirm_url)
     yield from user.save()
+
     # make session cookie:
     r = web.Response()
     r.set_cookie(COOKIE_NAME, user2cookie(user, 86400), max_age=86400, httponly=True)
@@ -322,7 +342,55 @@ def api_register_user(*, email, name, passwd):
     r.content_type = 'application/json'
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
+'''
+add by gary to verify email
+'''
+@get('/confirm/{token}')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    users = yield from User.findAll('email=?', [email])
+    if len(users)==0:
+        raise APIValueError('email', 'Email not exist.')
+    user = users[0]
+    # if user.confirmed==1:
+    #     print('########user email already registered, please login')
+    #     return 'redirect:/api/user/exist'
+    # else:
+    user.confirmed = '1'
+    print('###################email verification success!!!!!!')
+    yield from user.update()
+    # return 'redirect:/api/user/success
+    return {
+    '__template__':'regsuccess.html',
+    'user':user
+    }
 
+'''
+add by gary verification waiting page
+'''
+@get('/api/user/verification')
+def api_verfy_wait():
+    return {
+    '__template__':'verification.html'
+    }
+'''
+add by gary email exists
+'''
+@get('/api/user/exist')
+def api_email_exist():
+    return {
+    '__template__':'emailexists.html'
+    }
+
+@get('/api/user/success')
+def api_register_success():
+    return {
+    '__template__':'regsuccess.html'
+
+    }
 @get('/api/blogs')
 def api_blogs(*, page='1'):
     page_index = get_page_index(page)
@@ -348,7 +416,7 @@ def api_create_blog(request, *, name, summary, content):
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(user_identity='Marine',user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    blog = Blog(user_identity='pirate',user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
     logging.info("###################Create new blogs here####################")
     return blog

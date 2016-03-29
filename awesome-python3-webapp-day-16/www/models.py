@@ -25,6 +25,7 @@ class User(Model):
     image = StringField(ddl='varchar(500)')
     identity = StringField(ddl='varchar(50)')
     created_at = FloatField(default=time.time)
+    confirmed = StringField(ddl='varchar(50)')
 
 class Blog(Model):
     __table__ = 'blogs'

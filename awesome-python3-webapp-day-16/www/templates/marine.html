@@ -1,13 +1,85 @@
+{% macro pagination(url, page) %}
+    <div class="blog-pagination">
+        <ul class="pagination">
+        {% if page.has_previous %}
+            <li><a href="{{ url }}{{ page.page_index-1}}">left</a></li>
+        {% else %}
+            <li><a href="#">left</a></li>
+        {% endif %}
+            <li class="active"><a href="#">{{page.page_index}}</a></li>
+        {% if page.has_next %}
+            <li><a href="{{ url }}{{ page.page_index+1}}">right</a></li>
+        {% else %}
+            <li><a href="#">right</a></li>
+        {% endif %}
+            <!-- <li><a href="#">left</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">6</a></li>
+            <li><a href="#">7</a></li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">right</a></li> -->
+        </ul>
+    </div>
+{% endmacro %}
 {% extends '__newbase__.html'%} 
 {% block title%} Marine {% endblock %} 
 {% block beforehead %}
-
+<!-- Sign up -->
+<script type="text/javascript">
+$(function () {
+        var vm = new Vue({
+            el: '#upform',
+            data: {
+                username: '',
+                email: '',
+                password1: '',
+                password2: '',
+                identity:''
+            },
+            methods: {
+                submit: function(data) {
+                    event.preventDefault();
+                    var $form = $('#upform');
+                    if (!this.username.trim()) {
+                        return $form.showFormError('Please enter your user name');
+                    }
+                    if (!verifyEmail(this.email)) {
+                        return $form.showFormError('Please enter correct email');
+                    }
+                    if (this.password1.length < 6) {
+                        return $form.showFormError('Password must be longer than 6 characters');
+                    }
+                    if (this.password1 !== this.password2) {
+                        return $form.showFormError('Passwords are not the same');
+                    }
+                    var email = this.email.trim().toLowerCase();
+                    $form.postJSON('/api/users', {
+                        name: this.username,
+                        email: email,
+                        identity:'marine',
+                        passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()
+                    }, function(err, r) {
+                        if (err) {
+                            return $form.showFormError(err);
+                        }
+                        return location.assign('/api/user/verification');
+                    });
+                }
+            }
+        });
+        $('#upform').show();
+});
+</script>
 {% endblock %}
 <!--/head-->
 {% block content %}
 <!-- ADD BY GARY  Signin-->
 <div class="container">
-<div class="col-md-7 col-sm-11 ">
+<div class="col-md-8 col-sm-11 ">
 <div id="signin" class="modal-content search" style="display:none">
     <div class="modal-header">
         <button type="button" class="close" onclick="hideSignin()">x</button>
@@ -75,11 +147,12 @@
     <div class="center-block col-md-5 col-sm-5">
         <button type="button" class="close pull-left" style="padding: 5px 20px"onclick="hideSignup()">x</button>
         <h1><img src="static/images/onepiece/marine2.png" alt="logo"></h1>
-        <p>Marine</p>
+        
     </div>
     <div class="modal-body col-md-7  col-sm-7">
         
         <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">
+            <p v-model="identity" hidden>marine</p>
             <div class="uk-alert uk-alert-danger uk-hidden"></div>
             <div class="form-group">
                 <input v-model="username" type="text" class="form-control input-lg" placeholder="username">
@@ -118,9 +191,14 @@
                             <li><a href=""><i class="fa fa-google-plus"></i></a></li>
                             <li><a href=""><i class="fa fa-dribbble"></i></a></li>
                             <li><a href=""><i class="fa fa-linkedin"></i></a></li> -->
-                            {% if __user__ &&(__user__.identity=="marine")%}
-                                <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
-                                <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
+                            {% if __user__ %}
+                                {% if __user__.identity=="marine" %}
+                                    <li><a href="#"><i class="uk-icon-sign-in"></i>{{__user__.name}}</a></li>
+                                    <li><a href="/signout"><i class="uk-icon-edit"></i>Sign out</a></li>
+                                {% else %}
+                                     <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>Sign in</a></li>
+                                     <li><a onclick="selectSignup()"><i class="uk-icon-edit"></i>Sign up</a></li>
+                                {% endif %}
                             {% else %}
                                 <li><a onclick="selectSignin()"><i class="uk-icon-sign-in"></i>Sign in</a></li>
                                 <li><a onclick="selectSignup()"><i class="uk-icon-edit"></i>Sign up</a></li>
