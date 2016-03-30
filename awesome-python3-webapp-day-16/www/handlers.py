@@ -156,15 +156,15 @@ def marinehome(*, page='1'):
 @get('/pirate')
 def piratehome(*, index=2):
     seemore = Seemore(index=index)
-    blogs = yield from Blog.findAll(orderBy='created_at desc', where='blogs.user_identity="pirate"',limit=int(index))
+    blogs = yield from Blog.findAll(orderBy='created_at desc', where='blogs.user_identity="pirate"')
     logging.info("################the len of blogs:"+str(len(blogs)))
-    if(seemore.index <= len(blogs)):
-        seemore.has_next=True
+    # if(seemore.index <= len(blogs)):
+    #     seemore.has_next=True
     return {
         '__template__': 'pirate.html',
         'currenttime': datetime.now().strftime("%B %H %M %Y"),
         'blogs':blogs,
-        'seemore':seemore
+        #'seemore':seemore
     }
 
 @post('/api/authenticate')

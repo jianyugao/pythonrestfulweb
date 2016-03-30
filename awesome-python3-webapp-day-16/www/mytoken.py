@@ -1,4 +1,4 @@
-# project/token.py
+# project/mytoken.py
 
 from itsdangerous import URLSafeTimedSerializer
 

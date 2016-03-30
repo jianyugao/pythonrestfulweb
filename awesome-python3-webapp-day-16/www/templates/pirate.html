@@ -64,6 +64,49 @@ $(function () {
         });
         $('#upform').show();
 });
+
+//add by gary 03/29 to implement see more
+
+$(function(){
+    $show = 4;
+    $blogs = $(".blogCount");
+    $update = function()
+    {
+        $vis = 0;
+        $pos = 0;
+        $blogs.each(function(ind,obj)
+        {
+            console.info("execute here")
+            $pos++;
+            $(this).css({"display":($pos>$show)?'none':'block'});
+                       
+            if ($pos<=$show) { $vis++; }
+        });
+        console.log("pos length: ", $pos)
+        console.log("vis length: ", $vis)
+        if ($vis == $blogs.length)
+        {
+            console.info("display none")
+            $("#btnSee").css({"color":"#9fa5a5","border": "2px solid #9fa5a5"});   
+        }
+    };
+
+    $update();
+    console.log("##first update");
+    $btnMore = $("<div />").attr({"class":"timeline-date text-center"}).prepend('<a id="btnSee"class="btn btn-common">See More</a>');
+    $btnMore.click(function()
+    {
+        $show = $show + 2;
+        $update();
+        console.log("##click update");
+    });
+    $(".timeline-divider").after($btnMore);
+    
+});
+//
+
+
+
 </script>
 {% endblock %}
 <!--/head-->
@@ -252,9 +295,9 @@ $(function () {
                 <div class="timeline-date text-center">
                     <a href="/manage/blogs/create" class="btn btn-common uppercase">{{currenttime}}</a>
                 </div>
-                <div class="timeline-divider overflow padding-bottom">
+                <div id="seemore" class="timeline-divider overflow padding-bottom">
                     {% for blog in blogs %}
-                    <div class="{{loop.cycle('col-sm-6 padding-right arrow-right wow fadeInLeft','col-sm-6 padding-left padding-top arrow-left wow fadeInRight')}} " data-wow-duration="1000ms" data-wow-delay="300ms">
+                    <div  class="blogCount {{loop.cycle('col-sm-6 padding-right arrow-right wow fadeInLeft','col-sm-6 padding-left padding-top arrow-left wow fadeInRight')}} " data-wow-duration="1000ms" data-wow-delay="300ms">
                         <div class="single-blog timeline">
                             <div class="single-blog-wrapper">
                                 <div class="post-thumb">
@@ -278,7 +321,7 @@ $(function () {
                     </div>
                     {% endfor %}
                 </div>
-                {{ readmore('/pirate?index=', seemore) }}
+            
             </div>
         </div>
         <!-- <div class="timeline-blog overflow ">
