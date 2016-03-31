@@ -98,6 +98,8 @@ $(function() {
                 <div class="center-block col-md-5 col-sm-5">
                     <button type="button" class="close pull-left" style="padding: 5px 20px" onclick="hideSignup()">x</button>
                     <h1><img src="static/images/onepiece/zaomaologo.jpeg" style="width:240px" alt="logo"></h1>
+                    <h1><img {% if blog.user_identity=="pirate" %} src="../static/images/onepiece/zaomaologo.jpeg" {% else %} src="../static/images/onepiece/marine2.png" {% endif %} style="width:240px"class="center-block" alt="logo"></h1>
+                
                 </div>
                 <div class="modal-body col-md-7  col-sm-7">
                     <form id="upform" v-on="submit:submit" class="form col-md-12 center-block">

@@ -1740,6 +1740,7 @@ Blog with right sidebar
   width: 94px;
   height: 140px;
   background: url(../images/blog/blog-arrow.png);
+  /*background: url(../images/coming-soon1.png);*/
   -webkit-animation: fadeInLeft 400ms;
   animation: fadeInLeft 400ms;
 }
