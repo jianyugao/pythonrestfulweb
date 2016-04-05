@@ -160,6 +160,7 @@ def piratehome(*, index=2):
     logging.info("################the len of blogs:"+str(len(blogs)))
     # if(seemore.index <= len(blogs)):
     #     seemore.has_next=True
+    logging.info( datetime.now().strftime("%B %H %M %Y"))
     return {
         '__template__': 'pirate.html',
         'currenttime': datetime.now().strftime("%B %H %M %Y"),
