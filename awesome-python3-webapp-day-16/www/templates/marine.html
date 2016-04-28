@@ -299,7 +299,7 @@ $(function () {
                                     <a href="#"><img src="static/images/portfolio/project1.jpg" alt=""></a>
                                 </div>
                                 <div class="media-body">
-                                    <h4><a href="/manage/blogs/create">New Blog</a></h4>
+                                    <h4><a {% if __user__ %} href="/manage/blogs/create"{% else %} onclick="selectSignin()" {% endif %}>New Blog</a></h4>
                                 </div>
                             </div>
                             <div class="media">

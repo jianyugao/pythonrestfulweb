@@ -293,7 +293,7 @@ $(function(){
             <!-- <div class="timeline-blog overflow padding-top"> -->
             <div class="timeline-blog overflow padding-top">
                 <div class="timeline-date text-center">
-                    <a href="/manage/blogs/create" class="btn btn-common uppercase">{{currenttime}}</a>
+                    <a {% if __user__ %}href="/manage/blogs/create" {% else %} onclick="selectSignin()"{% endif %}class="btn btn-common uppercase">{{currenttime}}</a>
                 </div>
                 <div id="seemore" class="timeline-divider overflow padding-bottom">
                     {% for blog in blogs %}

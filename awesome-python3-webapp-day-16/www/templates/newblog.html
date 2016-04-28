@@ -333,7 +333,7 @@ $(function() {
                                                     <img class="media-object" src="../multicolor/images/blogdetails/4.png" alt="">
                                                 </a>
                                                 <div class="media-body">
-                                                    <span><i class="fa fa-user"></i>Posted by <a href="#">{{ comment.user_name }}{% if comment.user_id==blog.user_id %}(作者){% endif %}</a></span>
+                                                    <span><i class="fa fa-user"></i>Posted by <a href="#">{{ comment.user_name }}{% if comment.user_id==blog.user_id %}(Author){% endif %}</a></span>
                                                     <p>{{ comment.html_content|safe }}</p>
                                                     <ul class="nav navbar-nav post-nav">
                                                         <li><a href="#"><i class="fa fa-clock-o"></i>{{ comment.created_at|datetime }}</a></li>
