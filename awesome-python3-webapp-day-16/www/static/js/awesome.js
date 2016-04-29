@@ -314,6 +314,11 @@ function _httpJSON(method, url, data, callback) {
     if (method==='POST') {
         opt.url = url;
         opt.data = JSON.stringify(data || {});
+        if(data.hasOwnProperty("image")){
+            console.log('ajax data image: ', data.image);
+  
+        }
+
         opt.contentType = 'application/json';
     }
     $.ajax(opt).done(function (r) { //what is "r" in this function? 

@@ -21,13 +21,14 @@ function initVM(blog) {
             submit: function(event) {
                 event.preventDefault();
                 var $form = $('#blogn').find('form');
+                console.log("########image is %s", this.image);
                 $form.postJSON(action, this.$data, function(err, r) {
-                    if (err) {
-                        $form.showFormError(err);
-                    } else {
-                        // return location.assign('/manage/blogs');
-                        return location.assign('/pirate');
-                    }
+                    // if (err) {
+                    //     $form.showFormError(err);
+                    // } else {
+                    //     // return location.assign('/manage/blogs');
+                    //     return location.assign('/pirate');
+                    // }
                 });
             }
         }
@@ -39,8 +40,19 @@ function initVM(blog) {
 // };
 
 function imageIsLoaded(e) {
-    $('#blogn').attr('src', e.target.result);
+    $('#imageid').attr('src', e.target.result);
+    var s1 = e.target.result;
+    console.log(" readasDataUrl: ", e.target.result);
+    initVM({
+                name: '',
+                summary: '',
+                content: '',
+                image:s1
+        });
+
+
 };
+
 
 $(function() { //when will it start to run?
     
@@ -56,18 +68,30 @@ $(function() { //when will it start to run?
         });
     } else {
         $('#loading').hide();
-        initVM({
-            name: '',
-            summary: '',
-            content: '',
-            imageback: '/static/images/onepiece/filmz.jpg',
-        });
+        // initVM({
+        //     name: '',
+        //     summary: '',
+        //     content: '',
+        //     imageback: '/static/images/onepiece/filmz.jpg',
+        // });
         console.info("else functino");
         $(":file").change(function () {
         if (this.files && this.files[0]) {
             var reader = new FileReader();
             reader.onload = imageIsLoaded;
             reader.readAsDataURL(this.files[0]);
+            
+            // reader.readAsText(this.files[0]);
+            // reader.readAsArrayBuffer(this.files[0]);
+            // var s1 = reader.result;
+            // console.log(" readasDataUrl: ", s1);
+
+        //     initVM({
+        //         name: '',
+        //         summary: '',
+        //         content: '',
+        //         image:this.files[0]
+        // });
         }
     });
     }
@@ -266,7 +290,11 @@ $(function() {
                                     <span class="uppercase"><a {% if __user__.identity=="pirate" %} href="http://onepiece.wikia.com/wiki/Pirate"{% else %} href="http://onepiece.wikia.com/wiki/Marines"{% endif %}><small>{{__user__.identity}}</small></a></span>
                                 </div>
                             </div>
-                            <input type='file' />
+                            <!-- <input type='file' /> -->
+                            <form action="upload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file"><br /><br />
+                                <input type="submit" value="Upload">
+                            </form>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12">

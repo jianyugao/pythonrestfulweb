@@ -310,6 +310,8 @@ def api_get_users(*, page='1'):
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$')
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
+
+
 @post('/api/users')
 def api_register_user(*, email, name, identity, passwd):
     if not name or not name.strip():
@@ -409,7 +411,7 @@ def api_get_blog(*, id):
     return blog
 
 @post('/api/blogs')
-def api_create_blog(request, *, name, summary, content):
+def api_create_blog(request, *, name, summary, content,image):
     check_admin(request)
     if not name or not name.strip():
         raise APIValueError('name', 'name cannot be empty.')
@@ -417,9 +419,30 @@ def api_create_blog(request, *, name, summary, content):
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(user_identity='pirate',user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    file = image;
+    
+    blog = Blog(user_identity='pirate',user_id=request.__user__.id, user_name=request.__user__.name, user_image=file, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
-    logging.info("###################Create new blogs here####################")
+    
+    #####upload image by flask
+#     @app.route('/upload', methods=['POST'])
+# def upload():
+#     # Get the name of the uploaded file
+#     file = request.files['file']
+#     # Check if the file is one of the allowed types/extensions
+#     if file and allowed_file(file.filename):
+#         # Make the filename safe, remove unsupported chars
+#         filename = secure_filename(file.filename)
+#         # Move the file form the temporal folder to
+#         # the upload folder we setup
+#         print ("###########%s" %filename)
+#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#         # Redirect the user to the uploaded_file route, which
+#         # will basicaly show on the browser the uploaded file
+#         return redirect(url_for('uploaded_file',
+#                                 filename=filename))
+    ###########################
+    logging.info("###################Create new blogs here#################### %s",file)
     return blog
 
 @post('/api/blogs/{id}')
