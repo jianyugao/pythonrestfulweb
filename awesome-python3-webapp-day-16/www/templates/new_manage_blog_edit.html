@@ -285,16 +285,17 @@ $(function() {
                     <div class="col-sm-12 col-md-12">
                         <div class="single-blog single-column">
                             <div class="post-thumb">
-                               <a href="blogdetails.html"><img id="imageid" {% if __user__.identity=="pirate" %} src="/static/images/onepiece/filmz.jpg" {% else %} src="/static/images/onepiece/benbu.png" {% endif %} alt="your image"  width="850" height="400" class="img-responsive"></a>
+                               <!-- <a href="blogdetails.html"><img id="imageid" {% if __user__.identity=="pirate" %} src="/static/images/onepiece/filmz.jpg" {% else %} src="/static/images/onepiece/benbu.png" {% endif %} alt="your image"  width="850" height="400" class="img-responsive"></a> -->
+                               <a href="blogdetails.html"><img id="imageid" {% if __user__.identity=="pirate" %} src={{ myfile1 }} {% else %} src="/static/images/onepiece/benbu.png" {% endif %} alt="your image"  width="850" height="400" class="img-responsive"></a>
                                 <div class="post-overlay">
                                     <span class="uppercase"><a {% if __user__.identity=="pirate" %} href="http://onepiece.wikia.com/wiki/Pirate"{% else %} href="http://onepiece.wikia.com/wiki/Marines"{% endif %}><small>{{__user__.identity}}</small></a></span>
                                 </div>
                             </div>
-                            <!-- <input type='file' /> -->
-                            <form action="upload" method="post" enctype="multipart/form-data">
+                            <input type='file' />
+                           <!--  <form action="upload" method="post" enctype="multipart/form-data">
                                 <input type="file" name="file"><br /><br />
                                 <input type="submit" value="Upload">
-                            </form>
+                            </form> -->
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12">

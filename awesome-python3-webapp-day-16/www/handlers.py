@@ -22,6 +22,8 @@ from flask import url_for
 from flask import render_template
 from sendemail import send_email
 from apis import APIError
+import os
+import errno
 
 COOKIE_NAME = 'awesession'
 _COOKIE_KEY = configs.session.secret
@@ -239,7 +241,10 @@ def manage_blogs(*, page='1'):
 #     }
 @get('/manage/blogs/create')
 def manage_create_blog():
+    with open('/home/gary/2016/pythonrestfulweb/awesome-python3-webapp-day-16/www/templates/test1.txt', 'r') as myfile:
+        s1 = myfile.read()
     return {
+        'myfile1' : s1,
         '__template__': 'new_manage_blog_edit.html',
         'id': '',
         'action': '/api/blogs'
@@ -419,9 +424,25 @@ def api_create_blog(request, *, name, summary, content,image):
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    file = image;
-    
-    blog = Blog(user_identity='pirate',user_id=request.__user__.id, user_name=request.__user__.name, user_image=file, name=name.strip(), summary=summary.strip(), content=content.strip())
+    image_text = image;
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+    user_name = request.__user__.name
+    save_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "uploads",user_name)
+    try:
+        file_handle = os.open(save_path, flags)
+    except OSError as e:
+        if e.errno == errno.EEXIST:  # Failed as the file already exists.
+            print("Upload failed, user has image")
+            pass
+        else:  # Something unexpected went wrong so reraise the exception.
+            raise
+    else:  # No exception, so the file must have been created successfully.
+        with os.fdopen(file_handle, 'w') as file_obj:
+        # Using `os.fdopen` converts the handle to an object that acts like a
+        # regular Python file object, and the `with` context manager means the
+        # file will be automatically closed when we're done with it.
+            file_obj.write(image_text)
+    blog = Blog(user_identity='pirate',user_id=request.__user__.id, user_name=request.__user__.name, user_image=save_path, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
     
     #####upload image by flask
@@ -442,7 +463,7 @@ def api_create_blog(request, *, name, summary, content,image):
 #         return redirect(url_for('uploaded_file',
 #                                 filename=filename))
     ###########################
-    logging.info("###################Create new blogs here#################### %s",file)
+    logging.info("###################Create new blogs here#################### %s",image_text)
     return blog
 
 @post('/api/blogs/{id}')
