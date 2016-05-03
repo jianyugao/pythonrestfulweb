@@ -121,9 +121,12 @@ def get_blog(id):
     for c in comments:
         c.html_content = text2html(c.content)
     blog.html_content = markdown2.markdown(blog.content)
+    with open(blog.user_image,'r') as user_image:
+        dis_image = user_image.read(); 
     return {
         '__template__': 'newblog.html',
         'blog': blog,
+        'dis_image':dis_image,
         'comments': comments
     }
 

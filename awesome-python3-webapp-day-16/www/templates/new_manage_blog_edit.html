@@ -23,12 +23,12 @@ function initVM(blog) {
                 var $form = $('#blogn').find('form');
                 console.log("########image is %s", this.image);
                 $form.postJSON(action, this.$data, function(err, r) {
-                    // if (err) {
-                    //     $form.showFormError(err);
-                    // } else {
-                    //     // return location.assign('/manage/blogs');
-                    //     return location.assign('/pirate');
-                    // }
+                    if (err) {
+                        $form.showFormError(err);
+                    } else {
+                        // return location.assign('/manage/blogs');
+                        return location.assign('/pirate');
+                    }
                 });
             }
         }
