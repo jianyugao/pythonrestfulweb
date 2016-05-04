@@ -165,7 +165,30 @@ def piratehome(*, index=2):
     logging.info("################the len of blogs:"+str(len(blogs)))
     # if(seemore.index <= len(blogs)):
     #     seemore.has_next=True
-    logging.info( datetime.now().strftime("%B %H %M %Y"))
+    # logging.info( datetime.now().strftime("%B %H %M %Y"))
+    # try:
+    #     file_handle = os.open(save_path, flags)
+    # except OSError as e:
+    #     if e.errno == errno.EEXIST:  # Failed as the file already exists.
+    #         print("Upload failed, user has image")
+    #         pass
+    #     else:  # Something unexpected went wrong so reraise the exception.
+    #         raise
+    # else:  # No exception, so the file must have been created successfully.
+    #     with os.fdopen(file_handle, 'w') as file_obj:
+    #     # Using `os.fdopen` converts the handle to an object that acts like a
+    #     # regular Python file object, and the `with` context manager means the
+    #     # file will be automatically closed when we're done with it.
+    #         file_obj.write(image_text)
+    for blog in blogs:
+        try:
+            with open(blog.user_image,'r') as user_image:
+                dis_image = user_image.read();
+            blog.user_image = dis_image
+        except OSError as e:
+            # print(e.errno)
+            blog.user_image = False
+    
     return {
         '__template__': 'pirate.html',
         'currenttime': datetime.now().strftime("%B %H %M %Y"),
@@ -430,7 +453,7 @@ def api_create_blog(request, *, name, summary, content,image):
     image_text = image;
     flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
     user_name = request.__user__.name
-    save_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "uploads",user_name)
+    save_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "uploads",name)
     try:
         file_handle = os.open(save_path, flags)
     except OSError as e:

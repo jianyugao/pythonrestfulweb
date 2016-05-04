@@ -301,7 +301,7 @@ $(function(){
                         <div class="single-blog timeline">
                             <div class="single-blog-wrapper">
                                 <div class="post-thumb">
-                                    <img src="static/images/blog/timeline/1.jpg" class="img-responsive" alt="">
+                                    <img {% if blog.user_image %}src={{blog.user_image}} {% else%} src="../static/images/onepiece/filmz.jpg"{% endif %} class="img-responsive" height="280px" width="480px"alt="">
                                     <div class="post-overlay">
                                         <span class="uppercase"><a href="http://onepiece.wikia.com/wiki/Pirate"><small>{{blog.user_identity}}</small></a></span>
                                     </div>
